@@ -1,0 +1,29 @@
+{
+  "name": "file-organizer",
+  "version": "1.0.0",
+  "description": "CLI tool to scan directories, find duplicates, organize files by category, and clean up old files",
+  "main": "file-organizer.js",
+  "type": "module",
+  "scripts": {
+    "scan": "node file-organizer.js scan",
+    "duplicates": "node file-organizer.js duplicates",
+    "organize": "node file-organizer.js organize",
+    "cleanup": "node file-organizer.js cleanup",
+    "seed": "node scripts/generate-example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StepanxXx/file-organizer.git"
+  },
+  "keywords": [
+    "cli",
+    "file-organizer",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StepanxXx/file-organizer/issues"
+  },
+  "homepage": "https://github.com/StepanxXx/file-organizer#readme"
+}
