@@ -6,7 +6,7 @@ CLI-інструмент на Node.js для аналізу стану дире�
 
 ## 📋 Вимоги
 
-- **Node.js** версії `20.0.0` або новішої (проєкт використовує ES Modules `"type": "module"` та `fs.readdir` з `{ recursive: true }`).
+- **Node.js** версії `20.1.0` або новішої (проєкт використовує ES Modules `"type": "module"` та `fs.readdir` з `{ recursive: true }`).
 
 ---
 

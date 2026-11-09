@@ -4,6 +4,9 @@
   "description": "CLI tool to scan directories, find duplicates, organize files by category, and clean up old files",
   "main": "file-organizer.js",
   "type": "module",
+  "engines": {
+    "node": ">=20.1.0"
+  },
   "scripts": {
     "scan": "node file-organizer.js scan",
     "duplicates": "node file-organizer.js duplicates",
