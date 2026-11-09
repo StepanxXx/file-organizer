@@ -13,16 +13,20 @@ CLI-інструмент на Node.js для аналізу стану дире�
 ## 🚀 Встановлення та підготовка
 
 1. Клонуйте репозиторій та перейдіть у директорію проєкту:
+
    ```bash
    git clone https://github.com/StepanxXx/file-organizer.git
    cd file-organizer
    ```
 
 2. Згенеруйте тестову директорію `exemple/` з набором файлів різного розміру, типу та віку:
+
    ```bash
    npm run seed
    ```
+
    Або напряму:
+
    ```bash
    node scripts/generate-example.js
    ```
@@ -44,26 +48,31 @@ npm run <command> -- [options]
 ### 1. Команда `scan` — аналіз директорії
 
 Рекурсивно обходить вказану директорію та всі її піддиректорії, збираючи детальну статистику про файли:
+
 - Загальна кількість файлів та сумарний розмір
 - Групування за типом (розширенням) з кількістю та розміром для кожного типу
 - Розподіл файлів за віком останньої модифікації (`Last 7 days`, `Last 30 days`, `Older than 90`)
 - Топ-3 найбільших файли
 - Найстаріший файл у директорії
 
-#### Синтаксис та аргументи:
+#### scan. Синтаксис та аргументи
+
 ```bash
 node file-organizer.js scan <directory>
 # або
 npm run scan -- <directory>
 ```
+
 - `<directory>` *(обов'язковий)* — шлях до цільової директорії (відносний або абсолютний), яку потрібно просканувати.
 
-#### Приклад запуску:
+#### scan. Приклад запуску
+
 ```bash
 node file-organizer.js scan ./exemple
 ```
 
-#### Приклад виведення:
+#### scan. Приклад виведення
+
 ```text
 📂 Scanning: /Users/s/Documents/l-node/homework/file-organizer/exemple
 Processing... ████████████████████ 16/16 files
@@ -103,24 +112,29 @@ Oldest file: old_report.pdf (modified 365 days ago)
 ### 2. Команда `duplicates` — пошук дублікатів
 
 Знаходить файли з абсолютно ідентичним вмістом за допомогою обчислення криптографічного хешу `SHA-256` через потокове читання (`fs.createReadStream()`), не завантажуючи файли повністю в оперативну пам'ять.
+
 - Групує знайдені дублікати у `Map<hash, Array<filePath>>`
 - Виводить лише групи, де кількість копій `> 1`
 - Розраховує марно витрачене місце на диску для кожної групи (`розмір * (кількість копій - 1)`) та загалом
 
-#### Синтаксис та аргументи:
+#### duplicatesю. Синтаксис та аргументи
+
 ```bash
 node file-organizer.js duplicates <directory>
 # або
 npm run duplicates -- <directory>
 ```
+
 - `<directory>` *(обов'язковий)* — шлях до цільової директорії для пошуку дублікатів.
 
-#### Приклад запуску:
+#### duplicatesю. Приклад запуску
+
 ```bash
 node file-organizer.js duplicates ./exemple
 ```
 
-#### Приклад виведення:
+#### duplicatesю. Приклад виведення
+
 ```text
 🔍 Searching for duplicates in: /Users/s/Documents/l-node/homework/file-organizer/exemple
 Calculating hashes... ████████████████████ 16/16 files
@@ -155,26 +169,31 @@ Group 2 (2 copies, 180.0 KB each):
 ### 3. Команда `organize` — сортування файлів за категоріями
 
 Копіює файли з вихідної директорії до цільової, сортуючи їх у піддиректорії за категоріями: `Documents`, `Images`, `Archives`, `Code`, `Videos`, `Other`.
+
 - Оригінальні файли у вихідній директорії залишаються незмінними
 - Малі файли (`< 10 MB`) копіюються через `fs.copyFile()`
 - Великі файли (`≥ 10 MB`) копіюються потоково через `pipeline(fs.createReadStream(), fs.createWriteStream())`
 - При збігу імен файлів у цільовій папці автоматично додається числовий суфікс (`report.pdf` → `report(1).pdf` → `report(2).pdf`)
 
-#### Синтаксис та аргументи:
+#### organize. Синтаксис та аргументи
+
 ```bash
 node file-organizer.js organize <source> --output <target>
 # або
 npm run organize -- <source> --output <target>
 ```
+
 - `<source>` *(обов'язковий)* — вихідна директорія з файлами.
 - `--output <target>` або `-o <target>` *(обов'язковий)* — цільова директорія, де будуть створені папки категорій.
 
-#### Приклад запуску:
+#### organize. Приклад запуску
+
 ```bash
 node file-organizer.js organize ./exemple --output ./organized
 ```
 
-#### Приклад виведення:
+#### organize. Приклад виведення
+
 ```text
 📦 Organizing: /Users/s/Documents/l-node/homework/file-organizer/exemple
 Target: /Users/s/Documents/l-node/homework/file-organizer/organized
@@ -207,10 +226,12 @@ Total copied: 16 files (18.2 MB)
 ### 4. Команда `cleanup` — пошук та видалення застарілих файлів
 
 Знаходить файли, дата останньої модифікації яких старіша за вказану кількість днів (`--older-than <days>`).
+
 - За замовчуванням працює у безпечному режимі попереднього перегляду (**Dry Run Mode**) і лише показує список файлів без їх фактичного видалення.
 - При передачі прапорця `--confirm` виконує фактичне видалення знайдених файлів через `fs.unlink()` із відображенням прогрес-бару.
 
-#### Синтаксис та аргументи:
+#### cleanup. Синтаксис та аргументи
+
 ```bash
 # Режим попереднього перегляду (dry run)
 node file-organizer.js cleanup <directory> --older-than <days>
@@ -222,16 +243,19 @@ node file-organizer.js cleanup <directory> --older-than <days> --confirm
 # або
 npm run cleanup -- <directory> --older-than <days> --confirm
 ```
+
 - `<directory>` *(обов'язковий)* — цільова директорія для пошуку старих файлів.
 - `--older-than <days>` *(обов'язковий)* — мінімальний вік файлів у днях від дати останньої модифікації.
 - `--confirm` *(опціональний)* — підтвердження фактичного видалення файлів.
 
-#### Приклад запуску (Dry Run):
+#### cleanup. Приклад запуску (Dry Run)
+
 ```bash
 node file-organizer.js cleanup ./exemple --older-than 90
 ```
 
-#### Приклад виведення (Dry Run):
+#### cleanup. Приклад виведення (Dry Run)
+
 ```text
 🧹 Cleanup: /Users/s/Documents/l-node/homework/file-organizer/exemple
 Looking for files older than 90 days...
